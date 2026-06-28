@@ -1,0 +1,697 @@
+/* ============================================
+   CYBERPUNK THEME - 赛博朋克风格
+   ============================================ */
+
+/* ----- Font Import ----- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ============================================
+   CSS VARIABLES OVERRIDE
+   ============================================ */
+:root {
+  --cyber-bg: transparent;
+  --cyber-bg-alt: #0d0d1a;
+  --cyber-bg-card: rgba(10, 10, 20, 0.75);
+  --cyber-neon-cyan: #00ffff;
+  --cyber-neon-magenta: #ff00ff;
+  --cyber-neon-yellow: #f5e838;
+  --cyber-neon-green: #39ff14;
+  --cyber-neon-pink: #ff2d95;
+  --cyber-neon-blue: #0066ff;
+  --cyber-neon-purple: #8b00ff;
+  --cyber-glow-cyan: 0 0 7px #00ffff, 0 0 10px #00ffff, 0 0 21px #00ffff, 0 0 42px #00ffff;
+  --cyber-glow-magenta: 0 0 7px #ff00ff, 0 0 10px #ff00ff, 0 0 21px #ff00ff, 0 0 42px #ff00ff;
+  --cyber-glow-yellow: 0 0 7px #f5e838, 0 0 10px #f5e838, 0 0 21px #f5e838;
+  --cyber-glow-green: 0 0 7px #39ff14, 0 0 10px #39ff14, 0 0 21px #39ff14;
+  --cyber-border-cyan: 1px solid #00ffff;
+  --cyber-border-magenta: 1px solid #ff00ff;
+  --cyber-font-mono: 'Share Tech Mono', 'Courier New', monospace;
+  --cyber-font-display: 'Orbitron', 'Microsoft YaHei', sans-serif;
+}
+
+/* ============================================
+   GLOBAL BACKGROUND & SCANLINES
+   ============================================ */
+body {
+  background: transparent !important;
+  color: #c0c0c0 !important;
+  font-family: var(--cyber-font-mono) !important;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================
+   SITE BRANDING / HEADER
+   ============================================ */
+#site-title,
+.site-name {
+  font-family: var(--cyber-font-display) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: var(--cyber-glow-cyan) !important;
+}
+
+#site-subtitle,
+.site-subtitle {
+  font-family: var(--cyber-font-mono) !important;
+  color: var(--cyber-neon-magenta) !important;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff !important;
+  letter-spacing: 2px;
+}
+
+/* ============================================
+   NAVIGATION BAR
+   ============================================ */
+#nav,
+#page-header,
+.nav {
+  background: rgba(10, 10, 15, 0.75) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1) !important;
+}
+
+#nav a,
+.nav a,
+.menus_item a {
+  color: #c0c0c0 !important;
+  font-family: var(--cyber-font-mono) !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+#nav a:hover,
+.nav a:hover,
+.menus_item a:hover {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: var(--cyber-glow-cyan) !important;
+}
+
+/* ============================================
+   CARDS & ARTICLES
+   ============================================ */
+.card,
+.recent-post-item,
+.article-sort-item,
+.category-lists ul li,
+.archive-item,
+#aside-content .card-widget {
+  background: var(--cyber-bg-card) !important;
+  border: 1px solid rgba(0, 255, 255, 0.15) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.05), inset 0 0 15px rgba(0, 255, 255, 0.02) !important;
+  transition: all 0.3s ease !important;
+}
+
+.card:hover,
+.recent-post-item:hover {
+  border-color: rgba(0, 255, 255, 0.5) !important;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.15), 0 0 50px rgba(0, 255, 255, 0.05) !important;
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   ARTICLE TITLES
+   ============================================ */
+.article-title a,
+.post-title a,
+a.article-title,
+a.post-title {
+  color: var(--cyber-neon-cyan) !important;
+  font-family: var(--cyber-font-display) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5) !important;
+  transition: all 0.3s ease;
+}
+
+.article-title a:hover,
+.post-title a:hover {
+  color: var(--cyber-neon-pink) !important;
+  text-shadow: 0 0 5px #ff2d95, 0 0 10px #ff2d95, 0 0 20px #ff2d95 !important;
+}
+
+/* ============================================
+   HEADINGS
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--cyber-font-display) !important;
+  color: var(--cyber-neon-cyan) !important;
+}
+
+h1 {
+  text-shadow: var(--cyber-glow-cyan) !important;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3) !important;
+  padding-bottom: 8px;
+}
+
+h2 {
+  text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+  border-left: 4px solid var(--cyber-neon-cyan) !important;
+  padding-left: 15px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+h3 {
+  color: var(--cyber-neon-magenta) !important;
+  text-shadow: 0 0 5px #ff00ff;
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+a {
+  color: var(--cyber-neon-cyan) !important;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--cyber-neon-magenta) !important;
+  text-shadow: 0 0 8px #ff00ff !important;
+  text-decoration: none !important;
+}
+
+/* ============================================
+   CODE BLOCKS
+   ============================================ */
+code {
+  background: rgba(0, 255, 255, 0.1) !important;
+  color: var(--cyber-neon-green) !important;
+  font-family: var(--cyber-font-mono) !important;
+  padding: 2px 6px !important;
+  border-radius: 3px !important;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+figure.highlight,
+pre,
+div.highlight {
+  background: rgba(5, 5, 15, 0.95) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05), inset 0 0 20px rgba(0, 255, 255, 0.02);
+}
+
+figure.highlight .gutter {
+  background: rgba(0, 255, 255, 0.05) !important;
+  border-right: 1px solid rgba(0, 255, 255, 0.15) !important;
+}
+
+figure.highlight .gutter pre {
+  color: rgba(0, 255, 255, 0.4) !important;
+}
+
+figure.highlight .code {
+  color: #c0c0c0 !important;
+}
+
+/* ============================================
+   BLOCKQUOTES
+   ============================================ */
+blockquote {
+  background: rgba(255, 0, 255, 0.05) !important;
+  border-left: 4px solid var(--cyber-neon-magenta) !important;
+  color: #c0c0c0 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.05);
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+table {
+  border-color: rgba(0, 255, 255, 0.2) !important;
+  background: rgba(10, 10, 25, 0.5) !important;
+}
+
+thead {
+  background: rgba(0, 255, 255, 0.1) !important;
+}
+
+th {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: 0 0 5px #00ffff;
+  border-color: rgba(0, 255, 255, 0.3) !important;
+}
+
+td {
+  border-color: rgba(0, 255, 255, 0.1) !important;
+  color: #c0c0c0 !important;
+}
+
+tr:hover td {
+  background: rgba(0, 255, 255, 0.03) !important;
+}
+
+/* ============================================
+   SIDEBAR / ASIDE
+   ============================================ */
+#aside-content .card-widget {
+  background: var(--cyber-bg-card) !important;
+  border: 1px solid rgba(255, 0, 255, 0.15) !important;
+}
+
+#aside-content .card-widget:hover {
+  border-color: rgba(255, 0, 255, 0.4) !important;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.1) !important;
+}
+
+#aside-content .card-avatar img,
+#aside-content .author-info__avatar img {
+  border: 2px solid var(--cyber-neon-cyan) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3) !important;
+}
+
+#aside-content .author-info__name {
+  color: var(--cyber-neon-cyan) !important;
+  font-family: var(--cyber-font-display) !important;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+/* Aside item titles */
+#aside-content .card-title,
+#aside-content .item-headline {
+  color: var(--cyber-neon-magenta) !important;
+  font-family: var(--cyber-font-display) !important;
+  letter-spacing: 2px;
+}
+
+/* ============================================
+   POST META & DATES
+   ============================================ */
+.post-meta,
+.article-meta {
+  color: rgba(200, 200, 200, 0.7) !important;
+  font-family: var(--cyber-font-mono) !important;
+}
+
+.post-meta a,
+.article-meta a {
+  color: var(--cyber-neon-yellow) !important;
+}
+
+.post-meta a:hover,
+.article-meta a:hover {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: var(--cyber-glow-cyan) !important;
+}
+
+/* ============================================
+   TAGS
+   ============================================ */
+.tag-list a,
+.article-tag-list a,
+.flink-list-item a {
+  background: rgba(255, 0, 255, 0.1) !important;
+  color: var(--cyber-neon-magenta) !important;
+  border: 1px solid rgba(255, 0, 255, 0.3) !important;
+  border-radius: 3px !important;
+  font-family: var(--cyber-font-mono) !important;
+  font-size: 0.8em !important;
+  padding: 2px 8px !important;
+  transition: all 0.3s ease;
+}
+
+.tag-list a:hover,
+.article-tag-list a:hover {
+  background: rgba(255, 0, 255, 0.2) !important;
+  border-color: var(--cyber-neon-magenta) !important;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3) !important;
+  color: #fff !important;
+}
+
+/* ============================================
+   CATEGORIES
+   ============================================ */
+.category-list a,
+.article-category-list a {
+  color: var(--cyber-neon-yellow) !important;
+  font-family: var(--cyber-font-mono) !important;
+}
+
+.category-list a:hover,
+.article-category-list a:hover {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: var(--cyber-glow-cyan) !important;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+button,
+.btn,
+a.btn,
+#rightside div,
+.paginator a,
+.extend {
+  font-family: var(--cyber-font-mono) !important;
+  transition: all 0.3s ease;
+}
+
+.paginator a,
+.extend {
+  background: rgba(0, 255, 255, 0.05) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2) !important;
+  color: #c0c0c0 !important;
+}
+
+.paginator a:hover,
+.extend:hover {
+  background: rgba(0, 255, 255, 0.15) !important;
+  border-color: var(--cyber-neon-cyan) !important;
+  color: var(--cyber-neon-cyan) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3) !important;
+}
+
+.current-page {
+  background: var(--cyber-neon-cyan) !important;
+  color: #000 !important;
+  border-color: var(--cyber-neon-cyan) !important;
+  box-shadow: var(--cyber-glow-cyan) !important;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+#footer,
+footer {
+  background: rgba(10, 10, 15, 0.75) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 255, 255, 0.2) !important;
+  color: #888 !important;
+  font-family: var(--cyber-font-mono) !important;
+}
+
+#footer a,
+footer a {
+  color: var(--cyber-neon-cyan) !important;
+}
+
+#footer a:hover,
+footer a:hover {
+  text-shadow: var(--cyber-glow-cyan) !important;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cyber-bg) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3) !important;
+  border-radius: 3px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 255, 0.5) !important;
+  box-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+::selection {
+  background: rgba(0, 255, 255, 0.3) !important;
+  color: #fff !important;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+/* ============================================
+   HR DIVIDER
+   ============================================ */
+hr {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, var(--cyber-neon-cyan), transparent) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* ============================================
+   SEARCH
+   ============================================ */
+#search_mask,
+.search-dialog {
+  background: rgba(10, 10, 15, 0.95) !important;
+  border: 1px solid rgba(0, 255, 255, 0.3) !important;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.1) !important;
+}
+
+.search-dialog input {
+  background: rgba(0, 255, 255, 0.05) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2) !important;
+  color: #c0c0c0 !important;
+  font-family: var(--cyber-font-mono) !important;
+}
+
+.search-dialog input:focus {
+  border-color: var(--cyber-neon-cyan) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2) !important;
+}
+
+/* ============================================
+   RIGHT SIDE BUTTONS
+   ============================================ */
+#rightside > div {
+  background: rgba(10, 10, 15, 0.8) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2) !important;
+  color: #c0c0c0 !important;
+}
+
+#rightside > div:hover {
+  background: rgba(0, 255, 255, 0.15) !important;
+  border-color: var(--cyber-neon-cyan) !important;
+  color: var(--cyber-neon-cyan) !important;
+}
+
+/* ============================================
+   BANNER / TOP IMAGE AREA
+   ============================================ */
+#page-header,
+#post-top_img,
+.top-img {
+  position: relative;
+}
+
+#page-header::after,
+.top-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-neon-cyan), var(--cyber-neon-magenta), var(--cyber-neon-cyan), transparent);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* ============================================
+   POST CONTENT
+   ============================================ */
+#post-info h1,
+#post-info .post-title {
+  color: #fff !important;
+  text-shadow: var(--cyber-glow-cyan) !important;
+  font-family: var(--cyber-font-display) !important;
+}
+
+.post-content,
+.article-content {
+  color: #c0c0c0 !important;
+  font-family: var(--cyber-font-mono) !important;
+  line-height: 1.8;
+}
+
+.post-content p,
+.article-content p {
+  margin-bottom: 1.2em;
+}
+
+/* ============================================
+   MARK / HIGHLIGHT
+   ============================================ */
+mark {
+  background: rgba(245, 232, 56, 0.3) !important;
+  color: var(--cyber-neon-yellow) !important;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media screen and (max-width: 768px) {
+  body::before {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(0, 0, 0, 0.1) 1px,
+      rgba(0, 0, 0, 0.1) 2px
+    );
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Neon flicker for brand */
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: var(--cyber-glow-cyan);
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+#site-title:hover,
+.site-name:hover {
+  animation: neonFlicker 1.5s infinite alternate;
+}
+
+/* Glitch effect on title hover */
+@keyframes glitch {
+  0% {
+    text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+  }
+  25% {
+    text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff;
+  }
+  50% {
+    text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
+  }
+  75% {
+    text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff;
+  }
+  100% {
+    text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff;
+  }
+}
+
+h1:hover,
+.article-title:hover a {
+  animation: glitch 0.3s ease;
+}
+
+/* Pulse border */
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(0, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.05);
+  }
+  50% {
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+  }
+}
+
+.card {
+  animation: pulseBorder 4s ease-in-out infinite;
+}
+
+/* ============================================
+   DARK MODE OVERRIDES
+   ============================================ */
+[data-theme='dark'],
+.dark-mode,
+body.dark {
+  --cyber-bg: #050510;
+  --cyber-bg-alt: #08081a;
+  --cyber-bg-card: rgba(5, 5, 20, 0.9);
+}
+
+/* ============================================
+   LOADING / PRELOADER
+   ============================================ */
+.pace,
+.loading-bg {
+  background: var(--cyber-bg) !important;
+}
+
+.pace-progress {
+  background: linear-gradient(90deg, var(--cyber-neon-cyan), var(--cyber-neon-magenta)) !important;
+  box-shadow: 0 0 10px var(--cyber-neon-cyan);
+}
+
+/* ============================================
+   TOC (TABLE OF CONTENTS)
+   ============================================ */
+#toc .toc-link,
+.toc-link {
+  color: #888 !important;
+  transition: all 0.3s ease;
+}
+
+#toc .toc-link:hover,
+.toc-link:hover {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+#toc .active .toc-link,
+.toc-link.active {
+  color: var(--cyber-neon-cyan) !important;
+  text-shadow: 0 0 8px #00ffff;
+}
+
+/* ============================================
+   COMMENT AREA
+   ============================================ */
+#comments,
+.comment-area {
+  background: var(--cyber-bg-card) !important;
+  border: 1px solid rgba(0, 255, 255, 0.15) !important;
+  border-radius: 4px;
+}
