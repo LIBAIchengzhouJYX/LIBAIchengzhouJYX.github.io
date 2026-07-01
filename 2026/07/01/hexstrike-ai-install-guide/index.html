@@ -1,0 +1,1084 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>HexStrike AI 安装完整流程 | 李白穿越玩技术</title><meta name="author" content="libai"><meta name="copyright" content="libai"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0a0a0f"><meta name="description" content="一、项目概述1.1 什么是 HexStrike AIHexStrike AI 是一个双脚本 MCP（Model Context Protocol）架构的 AI 驱动渗透测试框架，版本 v6.0。它将 100+ 安全工具封装为 AI 可调用的标准化接口，专为 Bug Bounty &#x2F; CTF &#x2F; Red Team &#x2F; 安全研究设计。 1.2 核心架构1234567891">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HexStrike AI 安装完整流程">
+<meta property="og:url" content="https://libaichengzhoujyx.github.io/2026/07/01/hexstrike-ai-install-guide/index.html">
+<meta property="og:site_name" content="李白穿越玩技术">
+<meta property="og:description" content="一、项目概述1.1 什么是 HexStrike AIHexStrike AI 是一个双脚本 MCP（Model Context Protocol）架构的 AI 驱动渗透测试框架，版本 v6.0。它将 100+ 安全工具封装为 AI 可调用的标准化接口，专为 Bug Bounty &#x2F; CTF &#x2F; Red Team &#x2F; 安全研究设计。 1.2 核心架构1234567891">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://libaichengzhoujyx.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-07-01T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-01T06:32:26.862Z">
+<meta property="article:author" content="libai">
+<meta property="article:tag" content="HexStrike">
+<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="FastMCP">
+<meta property="article:tag" content="Claude集成">
+<meta property="article:tag" content="安全自动化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://libaichengzhoujyx.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HexStrike AI 安装完整流程",
+  "url": "https://libaichengzhoujyx.github.io/2026/07/01/hexstrike-ai-install-guide/",
+  "image": "https://libaichengzhoujyx.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-07-01T02:00:00.000Z",
+  "dateModified": "2026-07-01T06:32:26.862Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "libai",
+      "url": "https://libaichengzhoujyx.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://libaichengzhoujyx.github.io/2026/07/01/hexstrike-ai-install-guide/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a0a0f')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a0a0f')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HexStrike AI 安装完整流程',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cyberpunk.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/img/%E3%80%90%E5%93%B2%E9%A3%8E%E5%A3%81%E7%BA%B8%E3%80%91%E5%90%8D%E4%BE%A6%E6%8E%A2%E6%9F%AF%E5%8D%97-%E7%81%B0%E5%8E%9F%E5%93%80.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-terminal"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">李白穿越玩技术</span></a><a class="nav-page-title" href="/"><span class="site-name">HexStrike AI 安装完整流程</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-terminal"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">HexStrike AI 安装完整流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-01T02:00:00.000Z" title="发表于 2026-07-01 10:00:00">2026-07-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-01T06:32:26.862Z" title="更新于 2026-07-01 14:32:26">2026-07-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/">安全工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="一、项目概述"><a href="#一、项目概述" class="headerlink" title="一、项目概述"></a>一、项目概述</h2><h3 id="1-1-什么是-HexStrike-AI"><a href="#1-1-什么是-HexStrike-AI" class="headerlink" title="1.1 什么是 HexStrike AI"></a>1.1 什么是 HexStrike AI</h3><p>HexStrike AI 是一个<strong>双脚本 MCP（Model Context Protocol）架构</strong>的 AI 驱动渗透测试框架，版本 v6.0。它将 100+ 安全工具封装为 AI 可调用的标准化接口，专为 Bug Bounty &#x2F; CTF &#x2F; Red Team &#x2F; 安全研究设计。</p>
+<h3 id="1-2-核心架构"><a href="#1-2-核心架构" class="headerlink" title="1.2 核心架构"></a>1.2 核心架构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────┐         ┌──────────────────────────────────┐</span><br><span class="line">│        Windows 客户端            │  HTTP   │      Linux 服务器 (***.***.***.***) │</span><br><span class="line">│                                 │ ──────→ │                                  │</span><br><span class="line">│  hexstrike_mcp.py               │  :8888  │  hexstrike_server.py             │</span><br><span class="line">│  ┌─────────────────────────┐    │ ←────── │  ┌────────────────────────────┐  │</span><br><span class="line">│  │ FastMCP 服务器           │    │  JSON   │  │ Flask REST API             │  │</span><br><span class="line">│  │ 100+ @mcp.tool() 工具    │    │         │  │                            │  │</span><br><span class="line">│  └──────────┬──────────────┘    │         │  │ ┌────────────────────────┐ │  │</span><br><span class="line">│             │                   │         │  │ │ 工具执行引擎            │ │  │</span><br><span class="line">│             ▼                   │         │  │ │ nmap / nuclei / sqlmap  │ │  │</span><br><span class="line">│  ┌─────────────────────────┐    │         │  │ │ hydra / metasploit      │ │  │</span><br><span class="line">│  │ Claude Desktop            │    │         │  │ │ gdb / radare2 / angr   │ │  │</span><br><span class="line">│  │ (或任意 MCP 兼容 AI 客户端) │   │         │  │ │ ... 100+ tools          │ │  │</span><br><span class="line">│  └─────────────────────────┘    │         │  │ └────────────────────────┘ │  │</span><br><span class="line">└─────────────────────────────────┘         │  └────────────────────────────┘  │</span><br><span class="line">                                            └──────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-关键文件清单"><a href="#1-3-关键文件清单" class="headerlink" title="1.3 关键文件清单"></a>1.3 关键文件清单</h3><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>部署位置</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hexstrike_server.py</code></td>
+<td>Linux 服务器 <code>/home/***/***/</code></td>
+<td>Flask API 服务端，管理工具执行、错误恢复、AI 决策引擎</td>
+</tr>
+<tr>
+<td><code>hexstrike_mcp.py</code></td>
+<td>Windows 客户端（本地）</td>
+<td>MCP 协议客户端，通过 FastMCP 向 AI 暴露 100+ 工具接口</td>
+</tr>
+<tr>
+<td><code>setup_mcp_tools.py</code></td>
+<td>Windows 客户端</td>
+<td>SSH 到服务器，自动补充安装缺失工具（XSStrike &#x2F; ZAP 等）</td>
+</tr>
+<tr>
+<td><code>start_hexstrike.py</code></td>
+<td>Windows 客户端</td>
+<td>SSH 到服务器，远程启动 hexstrike 服务进程</td>
+</tr>
+<tr>
+<td><code>check_hexstrike.py</code></td>
+<td>Windows 客户端</td>
+<td>检查服务器端口（22 &#x2F; 8888）连通性</td>
+</tr>
+<tr>
+<td><code>copy_mcp.py</code></td>
+<td>Windows 客户端</td>
+<td>从开发目录同步最新代码到工作目录</td>
+</tr>
+<tr>
+<td><code>run_ssh.py</code></td>
+<td>Windows 客户端</td>
+<td>安全绕过 safe-rm 后执行 start_hexstrike.py</td>
+</tr>
+</tbody></table>
+<h3 id="1-4-源码目录与工作目录"><a href="#1-4-源码目录与工作目录" class="headerlink" title="1.4 源码目录与工作目录"></a>1.4 源码目录与工作目录</h3><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;DEV_DIR&gt;</code></td>
+<td><strong>开发源码目录</strong> — 代码编写和修改的地方</td>
+</tr>
+<tr>
+<td><code>&lt;WORK_DIR&gt;</code></td>
+<td><strong>工作执行目录</strong> — 拷贝后实际运行的地方</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>每次修改源码后，需执行 <code>python copy_mcp.py</code> 同步到工作目录。</p>
+</blockquote>
+<hr>
+<h2 id="二、前置环境准备"><a href="#二、前置环境准备" class="headerlink" title="二、前置环境准备"></a>二、前置环境准备</h2><h3 id="2-1-服务器端（Linux）要求"><a href="#2-1-服务器端（Linux）要求" class="headerlink" title="2.1 服务器端（Linux）要求"></a>2.1 服务器端（Linux）要求</h3><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>最低要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作系统</td>
+<td>Ubuntu 20.04+ &#x2F; Debian 11+ &#x2F; Kali Linux</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>Python 3.8+</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>内网可达，开放端口 22（SSH）和 8888（API）</td>
+</tr>
+<tr>
+<td>磁盘</td>
+<td>10GB+（安全工具占用）</td>
+</tr>
+<tr>
+<td>用户</td>
+<td>有 <code>sudo</code> 权限的普通用户</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-客户端（Windows）要求"><a href="#2-2-客户端（Windows）要求" class="headerlink" title="2.2 客户端（Windows）要求"></a>2.2 客户端（Windows）要求</h3><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>最低要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作系统</td>
+<td>Windows 10&#x2F;11</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>Python 3.10+</td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td>5.1+</td>
+</tr>
+<tr>
+<td>Claude Desktop</td>
+<td>最新版（如需 AI 集成）</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-PowerShell-执行策略设置"><a href="#2-3-PowerShell-执行策略设置" class="headerlink" title="2.3 PowerShell 执行策略设置"></a>2.3 PowerShell 执行策略设置</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许本地脚本执行（无需管理员）</span></span><br><span class="line"><span class="built_in">Set-ExecutionPolicy</span> RemoteSigned <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+
+<p>各策略说明：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Restricted</code></td>
+<td>默认值，禁止所有脚本</td>
+</tr>
+<tr>
+<td><code>RemoteSigned</code></td>
+<td>本地脚本可运行，远程脚本需签名（<strong>推荐</strong>）</td>
+</tr>
+<tr>
+<td><code>AllSigned</code></td>
+<td>所有脚本都必须签名</td>
+</tr>
+<tr>
+<td><code>Unrestricted</code></td>
+<td>全部可运行，远程会警告</td>
+</tr>
+<tr>
+<td><code>Bypass</code></td>
+<td>无任何限制</td>
+</tr>
+</tbody></table>
+<h3 id="2-4-连接信息汇总"><a href="#2-4-连接信息汇总" class="headerlink" title="2.4 连接信息汇总"></a>2.4 连接信息汇总</h3><table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>服务器 IP</td>
+<td><code>***.***.***.***</code></td>
+</tr>
+<tr>
+<td>SSH 端口</td>
+<td><code>22</code></td>
+</tr>
+<tr>
+<td>API 端口</td>
+<td><code>8888</code></td>
+</tr>
+<tr>
+<td>SSH 用户名</td>
+<td><code>***</code></td>
+</tr>
+<tr>
+<td>SSH 密码</td>
+<td><code>***</code></td>
+</tr>
+<tr>
+<td>服务目录</td>
+<td><code>/home/***/***/</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、服务端部署（Linux）"><a href="#三、服务端部署（Linux）" class="headerlink" title="三、服务端部署（Linux）"></a>三、服务端部署（Linux）</h2><h3 id="3-1-SSH-登录服务器"><a href="#3-1-SSH-登录服务器" class="headerlink" title="3.1 SSH 登录服务器"></a>3.1 SSH 登录服务器</h3><p>在 Windows PowerShell 或终端中：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh ***<span class="selector-tag">@</span>***.***.***.***</span><br><span class="line"><span class="comment"># 输入密码</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-安装系统依赖"><a href="#3-2-安装系统依赖" class="headerlink" title="3.2 安装系统依赖"></a>3.2 安装系统依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新包管理器</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装 Python 环境</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y python3 python3-pip python3-venv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证 Python 版本</span></span><br><span class="line">python3 --version   <span class="comment"># 应 ≥ 3.8</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-安装-Python-依赖"><a href="#3-3-安装-Python-依赖" class="headerlink" title="3.3 安装 Python 依赖"></a>3.3 安装 Python 依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Flask 框架（API 服务）</span></span><br><span class="line">pip3 install flask</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统监控</span></span><br><span class="line">pip3 install psutil</span><br><span class="line"></span><br><span class="line"><span class="comment"># HTTP 客户端（健康检查、外部 API 调用等）</span></span><br><span class="line">pip3 install requests</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-创建服务目录并上传代码"><a href="#3-4-创建服务目录并上传代码" class="headerlink" title="3.4 创建服务目录并上传代码"></a>3.4 创建服务目录并上传代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/***/***/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从 Windows 上传（在 Windows 终端执行）</span></span><br><span class="line"><span class="comment"># 方法一: scp</span></span><br><span class="line">scp &lt;DEV_DIR&gt;\hexstrike_server.py ***@***.***.***.***:/home/***/***/</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-安装安全工具（按需）"><a href="#3-5-安装安全工具（按需）" class="headerlink" title="3.5 安装安全工具（按需）"></a>3.5 安装安全工具（按需）</h3><p>HexStrike Server 支持 100+ 工具，安装更多工具 &#x3D; 更多可用功能。最小安装建议：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># === 网络扫描类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nmap masscan</span><br><span class="line"></span><br><span class="line"><span class="comment"># === Web 扫描类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y nikto dirb ffuf gobuster feroxbuster wfuzz</span><br><span class="line"></span><br><span class="line"><span class="comment"># === 漏洞扫描类 ===</span></span><br><span class="line"><span class="comment"># nuclei 需手动安装: https://github.com/projectdiscovery/nuclei</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y wpscan</span><br><span class="line"></span><br><span class="line"><span class="comment"># === 数据库注入类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y sqlmap</span><br><span class="line"></span><br><span class="line"><span class="comment"># === 密码破解类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y hydra john hashcat</span><br><span class="line"></span><br><span class="line"><span class="comment"># === 二进制分析类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y gdb binwalk</span><br><span class="line"></span><br><span class="line"><span class="comment"># === SMB/AD 枚举类 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y enum4linux nbtscan smbmap</span><br><span class="line"></span><br><span class="line"><span class="comment"># === 子域名枚举 ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y amass subfinder</span><br><span class="line"></span><br><span class="line"><span class="comment"># === Metasploit ===</span></span><br><span class="line"><span class="comment"># 需从官网安装: https://www.metasploit.com/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># === ZAP (OWASP) ===</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install -y zaproxy</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：服务器启动时会自动检测已安装的工具，工具缺失不会阻塞服务启动，但对应 MCP 工具调用时会返回错误。</p>
+</blockquote>
+<h3 id="3-6-启动服务"><a href="#3-6-启动服务" class="headerlink" title="3.6 启动服务"></a>3.6 启动服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/***/***/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 后台启动（推荐用于生产）</span></span><br><span class="line"><span class="built_in">nohup</span> python3 hexstrike_server.py \</span><br><span class="line">    --host 0.0.0.0 \</span><br><span class="line">    --port 8888 \</span><br><span class="line">    &gt; /tmp/hexstrike.log 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 记录进程 PID 便于管理</span></span><br><span class="line"><span class="built_in">echo</span> $! &gt; /tmp/hexstrike.pid</span><br></pre></td></tr></table></figure>
+
+<p><strong>启动参数说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--host</code></td>
+<td><code>0.0.0.0</code></td>
+<td>监听地址，<code>0.0.0.0</code> 表示接受所有来源连接</td>
+</tr>
+<tr>
+<td><code>--port</code></td>
+<td><code>8888</code></td>
+<td>监听端口</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td><code>False</code></td>
+<td>开启 Flask 调试模式（开发用）</td>
+</tr>
+</tbody></table>
+<h3 id="3-7-验证服务状态"><a href="#3-7-验证服务状态" class="headerlink" title="3.7 验证服务状态"></a>3.7 验证服务状态</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1: 健康检查 API</span></span><br><span class="line">curl http://127.0.0.1:8888/health</span><br><span class="line"></span><br><span class="line"><span class="comment"># 成功返回示例:</span></span><br><span class="line"><span class="comment"># &#123;</span></span><br><span class="line"><span class="comment">#   &quot;status&quot;: &quot;healthy&quot;,</span></span><br><span class="line"><span class="comment">#   &quot;version&quot;: &quot;6.0&quot;,</span></span><br><span class="line"><span class="comment">#   &quot;all_essential_tools_available&quot;: true,</span></span><br><span class="line"><span class="comment">#   &quot;tools_status&quot;: &#123; &quot;nmap&quot;: true, &quot;nuclei&quot;: true, ... &#125;</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2: 检查进程</span></span><br><span class="line">ps aux | grep hexstrike_server | grep -v grep</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法3: 检查端口</span></span><br><span class="line">ss -tlnp | grep 8888</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-8-服务管理命令"><a href="#3-8-服务管理命令" class="headerlink" title="3.8 服务管理命令"></a>3.8 服务管理命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止服务</span></span><br><span class="line"><span class="built_in">kill</span> $(<span class="built_in">cat</span> /tmp/hexstrike.pid)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制停止</span></span><br><span class="line">pkill -f hexstrike_server.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line"><span class="built_in">kill</span> $(<span class="built_in">cat</span> /tmp/hexstrike.pid)</span><br><span class="line"><span class="built_in">sleep</span> 2</span><br><span class="line"><span class="built_in">cd</span> /home/***/***/</span><br><span class="line"><span class="built_in">nohup</span> python3 hexstrike_server.py --host 0.0.0.0 --port 8888 &gt; /tmp/hexstrike.log 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="built_in">echo</span> $! &gt; /tmp/hexstrike.pid</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line"><span class="built_in">tail</span> -f /tmp/hexstrike.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最近 100 行日志</span></span><br><span class="line"><span class="built_in">tail</span> -n 100 /tmp/hexstrike.log</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、客户端配置（Windows）"><a href="#四、客户端配置（Windows）" class="headerlink" title="四、客户端配置（Windows）"></a>四、客户端配置（Windows）</h2><h3 id="4-1-拷贝最新代码"><a href="#4-1-拷贝最新代码" class="headerlink" title="4.1 拷贝最新代码"></a>4.1 拷贝最新代码</h3><p>每次修改源码后，从开发目录同步到工作目录：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1: 使用 copy_mcp.py</span></span><br><span class="line">python &lt;WORK_DIR&gt;\copy_mcp.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2: 手动复制</span></span><br><span class="line"><span class="built_in">copy</span> &lt;DEV_DIR&gt;\hexstrike_mcp.py &lt;WORK_DIR&gt;\</span><br><span class="line"><span class="built_in">copy</span> &lt;DEV_DIR&gt;\hexstrike_server.py &lt;WORK_DIR&gt;\</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>copy_mcp.py</code> 本质上就是这两条 <code>shutil.copy</code> 命令。</p>
+</blockquote>
+<h3 id="4-2-安装-Python-依赖"><a href="#4-2-安装-Python-依赖" class="headerlink" title="4.2 安装 Python 依赖"></a>4.2 安装 Python 依赖</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 核心依赖</span></span><br><span class="line">pip install mcp          <span class="comment"># FastMCP — MCP 协议框架</span></span><br><span class="line">pip install requests     <span class="comment"># HTTP 通信 — 客户端与服务端通信</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-安全绕过配置（safe-rm）"><a href="#4-3-安全绕过配置（safe-rm）" class="headerlink" title="4.3 安全绕过配置（safe-rm）"></a>4.3 安全绕过配置（safe-rm）</h3><p>工作目录有 safe-rm 保护，需要在运行前设置环境变量：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$env:SAFE_RM_AUTO_ADD_TEMP</span> = <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_ALLOWED_PATH</span> = <span class="string">&quot;&lt;WORK_DIR&gt;;&lt;TEMP_DIR&gt;&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_PROTECTION_FLAG</span> = <span class="string">&quot;&lt;TEMP_DIR&gt;\safe-rm-protection-flag-&lt;uuid&gt;&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_DENIED_PATH</span> = <span class="string">&quot;&lt;WORK_DIR&gt;\.git;&lt;WORK_DIR&gt;\.vscode;&lt;WORK_DIR&gt;\.trae&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这些环境变量也可以通过 <code>run_ssh.py</code> 自动设置。</p>
+</blockquote>
+<h3 id="4-4-测试客户端连接"><a href="#4-4-测试客户端连接" class="headerlink" title="4.4 测试客户端连接"></a>4.4 测试客户端连接</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接测试连通性</span></span><br><span class="line">python &lt;WORK_DIR&gt;\check_hexstrike.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预期输出:</span></span><br><span class="line"><span class="comment"># ==================================================</span></span><br><span class="line"><span class="comment"># HexStrike Server Connectivity Check</span></span><br><span class="line"><span class="comment"># ==================================================</span></span><br><span class="line"><span class="comment"># ***.***.***.***:8888 -&gt; OPEN</span></span><br><span class="line"><span class="comment"># ***.***.***.***:22 -&gt; OPEN</span></span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 MCP 客户端（调试模式）</span></span><br><span class="line">python &lt;WORK_DIR&gt;\hexstrike_mcp.py <span class="literal">--server</span> http://***.***.***.***:<span class="number">8888</span> <span class="literal">--debug</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 预期输出:</span></span><br><span class="line"><span class="comment"># [🔥 HexStrike MCP] YYYY-MM-DD XX:XX:XX [INFO] ✅ 🚀 Starting HexStrike AI MCP Client v6.0</span></span><br><span class="line"><span class="comment"># [🔥 HexStrike MCP] YYYY-MM-DD XX:XX:XX [INFO] ✅ 🎯 Successfully connected to HexStrike AI API server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-远程启动服务器（可选）"><a href="#4-5-远程启动服务器（可选）" class="headerlink" title="4.5 远程启动服务器（可选）"></a>4.5 远程启动服务器（可选）</h3><p>如果服务器端服务未启动，可以通过 SSH 远程启动：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法1: 直接使用 start_hexstrike.py</span></span><br><span class="line">python &lt;WORK_DIR&gt;\start_hexstrike.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2: 通过 run_ssh.py（带 safe-rm 绕过）</span></span><br><span class="line">python &lt;WORK_DIR&gt;\run_ssh.py</span><br></pre></td></tr></table></figure>
+
+<p><code>start_hexstrike.py</code> 的 SSH 执行流程：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>SSH 命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>检查已有进程</td>
+<td><code>ps aux | grep -i hexstrike | grep -v grep</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>检查端口占用</td>
+<td><code>ss -tlnp | grep 8888</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>查找服务脚本</td>
+<td><code>find /home /opt /root -name &#39;hexstrike_server.py&#39;</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>检查 Python</td>
+<td><code>python3 --version</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>启动服务</td>
+<td><code>cd /home/***/***/ &amp;&amp; nohup python3 hexstrike_server.py --host 0.0.0.0 --port 8888 &gt; /tmp/hexstrike.log 2&gt;&amp;1 &amp;</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>验证</td>
+<td><code>curl http://127.0.0.1:8888/health</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-6-补充安装缺失工具"><a href="#4-6-补充安装缺失工具" class="headerlink" title="4.6 补充安装缺失工具"></a>4.6 补充安装缺失工具</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python &lt;WORK_DIR&gt;\setup_mcp_tools.py</span><br></pre></td></tr></table></figure>
+
+<p>该脚本通过 SSH 自动完成：</p>
+<ul>
+<li>使用 <code>pipx</code> 安装 XSStrike</li>
+<li>安装 ZAP（OWASP ZAP 代理）</li>
+<li>处理 <code>dpkg</code> 锁冲突</li>
+</ul>
+<hr>
+<h2 id="五、Claude-Desktop-集成"><a href="#五、Claude-Desktop-集成" class="headerlink" title="五、Claude Desktop 集成"></a>五、Claude Desktop 集成</h2><h3 id="5-1-配置文件位置"><a href="#5-1-配置文件位置" class="headerlink" title="5.1 配置文件位置"></a>5.1 配置文件位置</h3><table>
+<thead>
+<tr>
+<th>系统</th>
+<th>路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows</td>
+<td><code>%APPDATA%\Claude\claude_desktop_config.json</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><code>~/.config/Claude/claude_desktop_config.json</code></td>
+</tr>
+</tbody></table>
+<h3 id="5-2-添加-MCP-Server-配置"><a href="#5-2-添加-MCP-Server-配置" class="headerlink" title="5.2 添加 MCP Server 配置"></a>5.2 添加 MCP Server 配置</h3><p>编辑配置文件，添加 <code>hexstrike-ai</code> 条目：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;hexstrike-ai&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;python&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;&lt;WORK_DIR&gt;\\hexstrike_mcp.py&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;--server&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://***.***.***.***:8888&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;SAFE_RM_AUTO_ADD_TEMP&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意事项：</p>
+<ul>
+<li>路径必须使用双反斜杠 <code>\\</code> 或正斜杠 <code>/</code></li>
+<li>如果 Python 不在 PATH 中，写完整路径如 <code>&lt;PYTHON_PATH&gt;\python.exe</code></li>
+</ul>
+</blockquote>
+<h3 id="5-3-验证集成"><a href="#5-3-验证集成" class="headerlink" title="5.3 验证集成"></a>5.3 验证集成</h3><ol>
+<li><strong>完全退出</strong> Claude Desktop（任务栏右键 → 退出）</li>
+<li>重新启动 Claude Desktop</li>
+<li>检查是否出现锤子图标 🔨，点击可看到 100+ 工具列表</li>
+</ol>
+<h3 id="5-4-故障排查"><a href="#5-4-故障排查" class="headerlink" title="5.4 故障排查"></a>5.4 故障排查</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 确认 MCP 客户端能独立运行</span></span><br><span class="line">python &lt;WORK_DIR&gt;\hexstrike_mcp.py <span class="literal">--server</span> http://***.***.***.***:<span class="number">8888</span> <span class="literal">--debug</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 确认服务器 8888 端口可达</span></span><br><span class="line">python &lt;WORK_DIR&gt;\check_hexstrike.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查看 Claude Desktop 日志</span></span><br><span class="line"><span class="comment"># 路径: %APPDATA%\Claude\logs\</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、完整安装顺序（快速参考）"><a href="#六、完整安装顺序（快速参考）" class="headerlink" title="六、完整安装顺序（快速参考）"></a>六、完整安装顺序（快速参考）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                    HexStrike AI 安装 7 步流程                       │</span><br><span class="line">├────────────────────────────────────────────────────────────────────┤</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 1] 服务器基础环境                                            │</span><br><span class="line">│      SSH → ***@***.***.***.***                                     │</span><br><span class="line">│      sudo apt-get update &amp;&amp; install python3 python3-pip            │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 2] 服务器 Python 依赖                                        │</span><br><span class="line">│      pip3 install flask psutil requests                            │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 3] 上传并启动服务                                            │</span><br><span class="line">│      mkdir -p /home/***/***/                                       │</span><br><span class="line">│      scp hexstrike_server.py → 服务器                               │</span><br><span class="line">│      nohup python3 hexstrike_server.py --host 0.0.0.0 --port 8888 &amp;│</span><br><span class="line">│      curl http://127.0.0.1:8888/health → 确认 &quot;healthy&quot;            │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 4] 客户端拷贝代码                                            │</span><br><span class="line">│      python copy_mcp.py                                            │</span><br><span class="line">│      (从 &lt;DEV_DIR&gt; 同步到 &lt;WORK_DIR&gt;)                               │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 5] 客户端安装依赖                                            │</span><br><span class="line">│      pip install mcp requests                                      │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 6] 测试连通性                                                │</span><br><span class="line">│      python check_hexstrike.py → 确认 OPEN                         │</span><br><span class="line">│      python hexstrike_mcp.py --debug → 确认 connected              │</span><br><span class="line">│                                                                    │</span><br><span class="line">│  [步骤 7] 配置 Claude Desktop                                      │</span><br><span class="line">│      编辑 %APPDATA%\Claude\claude_desktop_config.json              │</span><br><span class="line">│      添加 hexstrike-ai 的 mcpServers 配置                           │</span><br><span class="line">│      重启 Claude Desktop                                           │</span><br><span class="line">│                                                                    │</span><br><span class="line">└────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、MCP-工具分类一览"><a href="#七、MCP-工具分类一览" class="headerlink" title="七、MCP 工具分类一览"></a>七、MCP 工具分类一览</h2><p>HexStrike AI v6.0 提供以下类别的工具，全部通过 MCP 协议暴露给 AI：</p>
+<h3 id="7-1-核心网络扫描"><a href="#7-1-核心网络扫描" class="headerlink" title="7.1 核心网络扫描"></a>7.1 核心网络扫描</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nmap_scan</code></td>
+<td>端口扫描与服务版本检测</td>
+</tr>
+<tr>
+<td><code>nmap_advanced_scan</code></td>
+<td>高级 Nmap（NSE 脚本 &#x2F; OS 检测 &#x2F; 隐蔽模式）</td>
+</tr>
+<tr>
+<td><code>rustscan_fast_scan</code></td>
+<td>超高速 Rust 端口扫描</td>
+</tr>
+<tr>
+<td><code>masscan_high_speed</code></td>
+<td>互联网级高速扫描</td>
+</tr>
+<tr>
+<td><code>autorecon_comprehensive</code></td>
+<td>全自动侦察（端口+服务+漏洞）</td>
+</tr>
+</tbody></table>
+<h3 id="7-2-Web-应用安全"><a href="#7-2-Web-应用安全" class="headerlink" title="7.2 Web 应用安全"></a>7.2 Web 应用安全</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gobuster_scan</code></td>
+<td>目录&#x2F;DNS&#x2F;虚拟主机爆破</td>
+</tr>
+<tr>
+<td><code>feroxbuster_scan</code></td>
+<td>递归内容发现</td>
+</tr>
+<tr>
+<td><code>dirsearch_scan</code></td>
+<td>高级目录文件发现</td>
+</tr>
+<tr>
+<td><code>dirb_scan</code></td>
+<td>目录爆破</td>
+</tr>
+<tr>
+<td><code>ffuf_scan</code></td>
+<td>Web Fuzzing</td>
+</tr>
+<tr>
+<td><code>wfuzz_scan</code></td>
+<td>Web 应用 Fuzzing</td>
+</tr>
+<tr>
+<td><code>katana_crawl</code></td>
+<td>新一代爬虫与蜘蛛</td>
+</tr>
+<tr>
+<td><code>nikto_scan</code></td>
+<td>Web 漏洞扫描</td>
+</tr>
+<tr>
+<td><code>wpscan_analyze</code></td>
+<td>WordPress 专项扫描</td>
+</tr>
+<tr>
+<td><code>xsser_scan</code></td>
+<td>XSS 漏洞测试</td>
+</tr>
+<tr>
+<td><code>dotdotpwn_scan</code></td>
+<td>目录遍历测试</td>
+</tr>
+</tbody></table>
+<h3 id="7-3-漏洞扫描与利用"><a href="#7-3-漏洞扫描与利用" class="headerlink" title="7.3 漏洞扫描与利用"></a>7.3 漏洞扫描与利用</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nuclei_scan</code></td>
+<td>基于模板的漏洞扫描</td>
+</tr>
+<tr>
+<td><code>sqlmap_scan</code></td>
+<td>SQL 注入测试</td>
+</tr>
+<tr>
+<td><code>metasploit_run</code></td>
+<td>Metasploit 模块执行</td>
+</tr>
+<tr>
+<td><code>msfvenom_generate</code></td>
+<td>Payload 生成</td>
+</tr>
+</tbody></table>
+<h3 id="7-4-密码与认证攻击"><a href="#7-4-密码与认证攻击" class="headerlink" title="7.4 密码与认证攻击"></a>7.4 密码与认证攻击</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hydra_attack</code></td>
+<td>在线密码爆破</td>
+</tr>
+<tr>
+<td><code>john_crack</code></td>
+<td>John the Ripper 离线破解</td>
+</tr>
+<tr>
+<td><code>hashcat_crack</code></td>
+<td>GPU 加速 Hashcat 破解</td>
+</tr>
+</tbody></table>
+<h3 id="7-5-网络与域渗透"><a href="#7-5-网络与域渗透" class="headerlink" title="7.5 网络与域渗透"></a>7.5 网络与域渗透</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>netexec_scan</code></td>
+<td>网络执行（原 CrackMapExec）</td>
+</tr>
+<tr>
+<td><code>enum4linux_scan</code></td>
+<td>SMB 枚举</td>
+</tr>
+<tr>
+<td><code>enum4linux_ng_advanced</code></td>
+<td>高级 SMB 枚举</td>
+</tr>
+<tr>
+<td><code>rpcclient_enumeration</code></td>
+<td>RPC 枚举</td>
+</tr>
+<tr>
+<td><code>nbtscan_netbios</code></td>
+<td>NetBIOS 名称扫描</td>
+</tr>
+<tr>
+<td><code>smbmap_scan</code></td>
+<td>SMB 共享枚举</td>
+</tr>
+<tr>
+<td><code>arp_scan_discovery</code></td>
+<td>ARP 网络发现</td>
+</tr>
+<tr>
+<td><code>responder_credential_harvest</code></td>
+<td>凭证窃取</td>
+</tr>
+</tbody></table>
+<h3 id="7-6-子域名与资产发现"><a href="#7-6-子域名与资产发现" class="headerlink" title="7.6 子域名与资产发现"></a>7.6 子域名与资产发现</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>amass_scan</code></td>
+<td>子域名枚举</td>
+</tr>
+<tr>
+<td><code>subfinder_scan</code></td>
+<td>被动子域名发现</td>
+</tr>
+</tbody></table>
+<h3 id="7-7-二进制分析与逆向"><a href="#7-7-二进制分析与逆向" class="headerlink" title="7.7 二进制分析与逆向"></a>7.7 二进制分析与逆向</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gdb_analyze</code></td>
+<td>调试器分析</td>
+</tr>
+<tr>
+<td><code>gdb_peda_debug</code></td>
+<td>GDB + PEDA 增强调试</td>
+</tr>
+<tr>
+<td><code>radare2_analyze</code></td>
+<td>逆向工程框架</td>
+</tr>
+<tr>
+<td><code>ghidra_analysis</code></td>
+<td>NSA Ghidra 反编译分析</td>
+</tr>
+<tr>
+<td><code>binwalk_analyze</code></td>
+<td>固件提取分析</td>
+</tr>
+<tr>
+<td><code>ropgadget_search</code></td>
+<td>ROP Gadget 搜索</td>
+</tr>
+<tr>
+<td><code>ropper_gadget_search</code></td>
+<td>高级 ROP&#x2F;JOP 搜索</td>
+</tr>
+<tr>
+<td><code>checksec_analyze</code></td>
+<td>二进制安全特性检查</td>
+</tr>
+<tr>
+<td><code>xxd_hexdump</code></td>
+<td>十六进制转储</td>
+</tr>
+<tr>
+<td><code>strings_extract</code></td>
+<td>字符串提取</td>
+</tr>
+<tr>
+<td><code>objdump_analyze</code></td>
+<td>反汇编分析</td>
+</tr>
+<tr>
+<td><code>pwntools_exploit</code></td>
+<td>Exploit 开发框架</td>
+</tr>
+<tr>
+<td><code>one_gadget_search</code></td>
+<td>Libc 一键 RCE Gadget</td>
+</tr>
+<tr>
+<td><code>libc_database_lookup</code></td>
+<td>Libc 版本识别</td>
+</tr>
+<tr>
+<td><code>angr_symbolic_execution</code></td>
+<td>符号执行引擎</td>
+</tr>
+<tr>
+<td><code>pwninit_setup</code></td>
+<td>CTF 二进制利用环境搭建</td>
+</tr>
+</tbody></table>
+<h3 id="7-8-云与容器安全"><a href="#7-8-云与容器安全" class="headerlink" title="7.8 云与容器安全"></a>7.8 云与容器安全</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prowler_scan</code></td>
+<td>多云安全评估（AWS&#x2F;Azure&#x2F;GCP）</td>
+</tr>
+<tr>
+<td><code>scout_suite_assessment</code></td>
+<td>多云安全审计</td>
+</tr>
+<tr>
+<td><code>cloudmapper_analysis</code></td>
+<td>AWS 网络可视化</td>
+</tr>
+<tr>
+<td><code>pacu_exploitation</code></td>
+<td>AWS 利用框架</td>
+</tr>
+<tr>
+<td><code>trivy_scan</code></td>
+<td>容器&#x2F;文件系统漏洞扫描</td>
+</tr>
+<tr>
+<td><code>kube_hunter_scan</code></td>
+<td>Kubernetes 渗透测试</td>
+</tr>
+<tr>
+<td><code>kube_bench_cis</code></td>
+<td>CIS Kubernetes 基准检查</td>
+</tr>
+<tr>
+<td><code>docker_bench_security_scan</code></td>
+<td>Docker 安全评估</td>
+</tr>
+<tr>
+<td><code>clair_vulnerability_scan</code></td>
+<td>容器漏洞分析</td>
+</tr>
+<tr>
+<td><code>falco_runtime_monitoring</code></td>
+<td>运行时安全监控</td>
+</tr>
+<tr>
+<td><code>checkov_iac_scan</code></td>
+<td>IaC 安全扫描（Terraform&#x2F;CloudFormation）</td>
+</tr>
+<tr>
+<td><code>terrascan_iac_scan</code></td>
+<td>IaC 安全合规检查</td>
+</tr>
+</tbody></table>
+<h3 id="7-9-文件操作与-Payload"><a href="#7-9-文件操作与-Payload" class="headerlink" title="7.9 文件操作与 Payload"></a>7.9 文件操作与 Payload</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>create_file</code></td>
+<td>在服务器创建文件</td>
+</tr>
+<tr>
+<td><code>modify_file</code></td>
+<td>修改文件内容</td>
+</tr>
+<tr>
+<td><code>delete_file</code></td>
+<td>删除文件&#x2F;目录</td>
+</tr>
+<tr>
+<td><code>list_files</code></td>
+<td>列出目录内容</td>
+</tr>
+<tr>
+<td><code>generate_payload</code></td>
+<td>生成测试 Payload（buffer&#x2F;cyclic&#x2F;random）</td>
+</tr>
+</tbody></table>
+<h3 id="7-10-Python-环境管理"><a href="#7-10-Python-环境管理" class="headerlink" title="7.10 Python 环境管理"></a>7.10 Python 环境管理</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>install_python_package</code></td>
+<td>在服务器虚拟环境中安装 Python 包</td>
+</tr>
+<tr>
+<td><code>execute_python_script</code></td>
+<td>在服务器虚拟环境中执行 Python 脚本</td>
+</tr>
+</tbody></table>
+<h3 id="7-11-内存取证"><a href="#7-11-内存取证" class="headerlink" title="7.11 内存取证"></a>7.11 内存取证</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>volatility_analyze</code></td>
+<td>内存取证分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、常用运维操作"><a href="#八、常用运维操作" class="headerlink" title="八、常用运维操作"></a>八、常用运维操作</h2><h3 id="8-1-日常工作流"><a href="#8-1-日常工作流" class="headerlink" title="8.1 日常工作流"></a>8.1 日常工作流</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 确认服务器连通</span></span><br><span class="line">python &lt;WORK_DIR&gt;\check_hexstrike.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 如服务器未运行，远程启动</span></span><br><span class="line">python &lt;WORK_DIR&gt;\start_hexstrike.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 同步最新代码（如果源码有修改）</span></span><br><span class="line">python &lt;WORK_DIR&gt;\copy_mcp.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 测试 MCP 客户端</span></span><br><span class="line">python &lt;WORK_DIR&gt;\hexstrike_mcp.py <span class="literal">--server</span> http://***.***.***.***:<span class="number">8888</span> <span class="literal">--debug</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 重启 Claude Desktop 加载最新工具</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-服务器端维护"><a href="#8-2-服务器端维护" class="headerlink" title="8.2 服务器端维护"></a>8.2 服务器端维护</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看服务状态</span></span><br><span class="line">curl http://127.0.0.1:8888/health | python3 -m json.tool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看实时日志</span></span><br><span class="line"><span class="built_in">tail</span> -f /tmp/hexstrike.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看磁盘使用</span></span><br><span class="line"><span class="built_in">df</span> -h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理缓存文件</span></span><br><span class="line"><span class="built_in">rm</span> -rf /tmp/hexstrike_cache/*</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-3-常见问题"><a href="#8-3-常见问题" class="headerlink" title="8.3 常见问题"></a>8.3 常见问题</h3><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>可能原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Connection refused</code></td>
+<td>服务器未启动</td>
+<td><code>python start_hexstrike.py</code></td>
+</tr>
+<tr>
+<td><code>CLOSED/TIMEOUT</code></td>
+<td>网络不通、防火墙</td>
+<td>检查 VPN、防火墙规则</td>
+</tr>
+<tr>
+<td><code>工具不可用</code></td>
+<td>对应安全工具未安装</td>
+<td><code>apt-get install</code> 或 <code>setup_mcp_tools.py</code></td>
+</tr>
+<tr>
+<td>MCP 工具不显示</td>
+<td>Claude Desktop 配置错误</td>
+<td>检查 JSON 语法、路径正确性</td>
+</tr>
+<tr>
+<td>SSH 连接失败</td>
+<td>22 端口不通、认证失败</td>
+<td><code>python check_hexstrike.py</code> 检查</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、附录"><a href="#九、附录" class="headerlink" title="九、附录"></a>九、附录</h2><h3 id="9-1-环境变量完整说明"><a href="#9-1-环境变量完整说明" class="headerlink" title="9.1 环境变量完整说明"></a>9.1 环境变量完整说明</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># safe-rm 绕过（必需）</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_AUTO_ADD_TEMP</span> = <span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_ALLOWED_PATH</span> = <span class="string">&quot;&lt;WORK_DIR&gt;;&lt;TEMP_DIR&gt;&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_PROTECTION_FLAG</span> = <span class="string">&quot;&lt;TEMP_DIR&gt;\safe-rm-protection-flag-&lt;uuid&gt;&quot;</span></span><br><span class="line"><span class="variable">$env:SAFE_RM_DENIED_PATH</span> = <span class="string">&quot;&lt;WORK_DIR&gt;\.git;&lt;WORK_DIR&gt;\.vscode;&lt;WORK_DIR&gt;\.trae&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ⚠️ PowerShell 中设置环境变量用 $env: 前缀，不是 bash 的 VAR=value 语法。</span></span><br><span class="line"><span class="comment"># 错误示例: SAFE_RM_ALLOWED_PATH=D:\path  (bash语法, PowerShell会报错)</span></span><br><span class="line"><span class="comment"># 正确示例: $env:SAFE_RM_ALLOWED_PATH = &quot;D:\path&quot;  (PowerShell语法)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 脚本中直接设置（通过 os.environ）:</span></span><br><span class="line">os.environ[<span class="string">&#x27;SAFE_RM_AUTO_ADD_TEMP&#x27;</span>] = <span class="string">&#x27;1&#x27;</span></span><br><span class="line">os.environ[<span class="string">&#x27;SAFE_RM_ALLOWED_PATH&#x27;</span>] = <span class="string">&#x27;&lt;WORK_DIR&gt;;&lt;TEMP_DIR&gt;&#x27;</span></span><br><span class="line">os.environ[<span class="string">&#x27;SAFE_RM_PROTECTION_FLAG&#x27;</span>] = <span class="string">&#x27;&lt;TEMP_DIR&gt;\\safe-rm-protection-flag-&lt;uuid&gt;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2-API-端点一览"><a href="#9-2-API-端点一览" class="headerlink" title="9.2 API 端点一览"></a>9.2 API 端点一览</h3><table>
+<thead>
+<tr>
+<th>端点</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/health</code></td>
+<td>GET</td>
+<td>服务器健康检查</td>
+</tr>
+<tr>
+<td><code>/api/command</code></td>
+<td>POST</td>
+<td>执行通用命令</td>
+</tr>
+<tr>
+<td><code>/api/tools/nmap</code></td>
+<td>POST</td>
+<td>Nmap 扫描</td>
+</tr>
+<tr>
+<td><code>/api/tools/nuclei</code></td>
+<td>POST</td>
+<td>Nuclei 漏洞扫描</td>
+</tr>
+<tr>
+<td><code>/api/tools/sqlmap</code></td>
+<td>POST</td>
+<td>SQLMap 注入测试</td>
+</tr>
+<tr>
+<td><code>/api/tools/hydra</code></td>
+<td>POST</td>
+<td>Hydra 密码爆破</td>
+</tr>
+<tr>
+<td><code>/api/tools/metasploit</code></td>
+<td>POST</td>
+<td>Metasploit 模块</td>
+</tr>
+<tr>
+<td><code>/api/tools/gobuster</code></td>
+<td>POST</td>
+<td>Gobuster 目录爆破</td>
+</tr>
+<tr>
+<td><code>/api/files/create</code></td>
+<td>POST</td>
+<td>创建文件</td>
+</tr>
+<tr>
+<td><code>/api/files/modify</code></td>
+<td>POST</td>
+<td>修改文件</td>
+</tr>
+<tr>
+<td><code>/api/files/delete</code></td>
+<td>POST</td>
+<td>删除文件</td>
+</tr>
+<tr>
+<td><code>/api/files/list</code></td>
+<td>GET</td>
+<td>列出文件</td>
+</tr>
+<tr>
+<td><code>/api/payloads/generate</code></td>
+<td>POST</td>
+<td>生成 Payload</td>
+</tr>
+<tr>
+<td><code>/api/python/install</code></td>
+<td>POST</td>
+<td>安装 Python 包</td>
+</tr>
+<tr>
+<td><code>/api/python/execute</code></td>
+<td>POST</td>
+<td>执行 Python 脚本</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>其他工具端点格式统一为 <code>/api/tools/&lt;工具名&gt;</code></p>
+</blockquote>
+<h3 id="9-3-客户端启动参数"><a href="#9-3-客户端启动参数" class="headerlink" title="9.3 客户端启动参数"></a>9.3 客户端启动参数</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python hexstrike_mcp.py \</span><br><span class="line">    <span class="literal">--server</span> http://***.***.***.***:<span class="number">8888</span> \   <span class="comment"># 服务器地址</span></span><br><span class="line">    <span class="literal">--timeout</span> <span class="number">300</span> \                           <span class="comment"># 请求超时（秒），默认 300</span></span><br><span class="line">    <span class="literal">--debug</span>                                   <span class="comment"># 开启调试日志</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="9-4-占位符替换对照表"><a href="#9-4-占位符替换对照表" class="headerlink" title="9.4 占位符替换对照表"></a>9.4 占位符替换对照表</h3><p>本文档中所有敏感信息已用占位符替换，实际部署时请替换为真实值：</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>说明</th>
+<th>示例真实值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>***.***.***.***</code></td>
+<td>服务器 IP 地址</td>
+<td><code>192.168.x.x</code></td>
+</tr>
+<tr>
+<td><code>***</code></td>
+<td>SSH 用户名</td>
+<td>自定义用户名</td>
+</tr>
+<tr>
+<td><code>***</code></td>
+<td>SSH 密码</td>
+<td>自定义密码</td>
+</tr>
+<tr>
+<td><code>&lt;WORK_DIR&gt;</code></td>
+<td>Windows 工作目录</td>
+<td><code>D:\project\work</code></td>
+</tr>
+<tr>
+<td><code>&lt;DEV_DIR&gt;</code></td>
+<td>Windows 开发源码目录</td>
+<td><code>D:\project\src</code></td>
+</tr>
+<tr>
+<td><code>&lt;TEMP_DIR&gt;</code></td>
+<td>Windows 临时目录</td>
+<td><code>C:\Users\&lt;user&gt;\AppData\Local\Temp</code></td>
+</tr>
+<tr>
+<td><code>&lt;PYTHON_PATH&gt;</code></td>
+<td>Python 安装路径</td>
+<td><code>C:\Users\&lt;user&gt;\AppData\Local\Programs\Python\Python310</code></td>
+</tr>
+<tr>
+<td><code>&lt;uuid&gt;</code></td>
+<td>safe-rm 保护标志 UUID</td>
+<td>系统生成的唯一标识符</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://libaichengzhoujyx.github.io">libai</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://libaichengzhoujyx.github.io/2026/07/01/hexstrike-ai-install-guide/">https://libaichengzhoujyx.github.io/2026/07/01/hexstrike-ai-install-guide/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://libaichengzhoujyx.github.io" target="_blank">李白穿越玩技术</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/HexStrike/">HexStrike</a><a class="post-meta__tags" href="/tags/MCP/">MCP</a><a class="post-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><a class="post-meta__tags" href="/tags/FastMCP/">FastMCP</a><a class="post-meta__tags" href="/tags/Claude%E9%9B%86%E6%88%90/">Claude集成</a><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96/">安全自动化</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/01/ida-pro-mcp-%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%80%BB%E7%BB%93/" title="IDA Pro MCP 安装配置完整指南（含 Trae / Claude Code）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">IDA Pro MCP 安装配置完整指南（含 Trae / Claude Code）</div></div><div class="info-2"><div class="info-item-1">一、环境概览   项目 路径&#x2F;值    IDA Pro D:\***\IDA Pro\   IDA 自带 Python &lt;IDA_DIR&gt;\python311\python.exe   IDA 版本 9.x   操作系统 Windows 10   MCP 客户端 Claude Code CLI + Trae（火星码）   Trae 配置目录 %USERPROFILE%\.marscode\    二、完整安装步骤步骤 ①：安装 MCP 服务端包目标：将 ida-pro-mcp Python 包安装到 IDA 自带的 Python 环境中（使用 IDA 的 -m pi...</div></div></div></a><a class="pagination-related" href="/2026/06/28/java%E3%80%81maven%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" title="java、maven快速安裝脚本"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">java、maven快速安裝脚本</div></div><div class="info-2"><div class="info-item-1">一键设置Java 8&#x2F;Java11环境变量脚本 1234567891011121314151617181920212223242526272829303132333435@echo offtitle 一键设置Java 8/Java11环境变量脚本REM 检查是否以管理员权限运行net session &gt;nul 2&gt;&amp;1if %errorlevel% neq 0 (    echo 请以管理员权限运行此脚本！（鼠标右键-选择&quot;以管理员身份运行&quot;）    pause    exit /b)REM 手动输入JAVA_HOME路径echo 第一步...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">libai</div><div class="author-info-description">赛博空间的一名诗人，在代码的霓虹中寻找真理</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/LIBAIchengzhouJYX"><i class="fab fa-github"></i><span>进入矩阵</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">⚡ 欢迎来到赛博空间<br>霓虹永不熄灭，代码永不停歇</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%A1%B9%E7%9B%AE%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、项目概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF-HexStrike-AI"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 什么是 HexStrike AI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 核心架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%85%B3%E9%94%AE%E6%96%87%E4%BB%B6%E6%B8%85%E5%8D%95"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 关键文件清单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%BA%90%E7%A0%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 源码目录与工作目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%89%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">二、前置环境准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%EF%BC%88Linux%EF%BC%89%E8%A6%81%E6%B1%82"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 服务器端（Linux）要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88Windows%EF%BC%89%E8%A6%81%E6%B1%82"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 客户端（Windows）要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-PowerShell-%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E8%AE%BE%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 PowerShell 执行策略设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E8%BF%9E%E6%8E%A5%E4%BF%A1%E6%81%AF%E6%B1%87%E6%80%BB"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 连接信息汇总</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%83%A8%E7%BD%B2%EF%BC%88Linux%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、服务端部署（Linux）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-SSH-%E7%99%BB%E5%BD%95%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 SSH 登录服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%BE%9D%E8%B5%96"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 安装系统依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%AE%89%E8%A3%85-Python-%E4%BE%9D%E8%B5%96"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 安装 Python 依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E7%9B%AE%E5%BD%95%E5%B9%B6%E4%B8%8A%E4%BC%A0%E4%BB%A3%E7%A0%81"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 创建服务目录并上传代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%AE%89%E8%A3%85%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%EF%BC%88%E6%8C%89%E9%9C%80%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 安装安全工具（按需）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 启动服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-%E9%AA%8C%E8%AF%81%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">3.7.</span> <span class="toc-text">3.7 验证服务状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-number">3.8.</span> <span class="toc-text">3.8 服务管理命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%EF%BC%88Windows%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">四、客户端配置（Windows）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%8B%B7%E8%B4%9D%E6%9C%80%E6%96%B0%E4%BB%A3%E7%A0%81"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 拷贝最新代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%AE%89%E8%A3%85-Python-%E4%BE%9D%E8%B5%96"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 安装 Python 依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%AE%89%E5%85%A8%E7%BB%95%E8%BF%87%E9%85%8D%E7%BD%AE%EF%BC%88safe-rm%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 安全绕过配置（safe-rm）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E6%B5%8B%E8%AF%95%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 测试客户端连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E8%BF%9C%E7%A8%8B%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 远程启动服务器（可选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-%E8%A1%A5%E5%85%85%E5%AE%89%E8%A3%85%E7%BC%BA%E5%A4%B1%E5%B7%A5%E5%85%B7"><span class="toc-number">4.6.</span> <span class="toc-text">4.6 补充安装缺失工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Claude-Desktop-%E9%9B%86%E6%88%90"><span class="toc-number">5.</span> <span class="toc-text">五、Claude Desktop 集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 配置文件位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%B7%BB%E5%8A%A0-MCP-Server-%E9%85%8D%E7%BD%AE"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 添加 MCP Server 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E9%AA%8C%E8%AF%81%E9%9B%86%E6%88%90"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 验证集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 故障排查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E9%A1%BA%E5%BA%8F%EF%BC%88%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">六、完整安装顺序（快速参考）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81MCP-%E5%B7%A5%E5%85%B7%E5%88%86%E7%B1%BB%E4%B8%80%E8%A7%88"><span class="toc-number">7.</span> <span class="toc-text">七、MCP 工具分类一览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E6%A0%B8%E5%BF%83%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F"><span class="toc-number">7.1.</span> <span class="toc-text">7.1 核心网络扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-Web-%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8"><span class="toc-number">7.2.</span> <span class="toc-text">7.2 Web 应用安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E4%B8%8E%E5%88%A9%E7%94%A8"><span class="toc-number">7.3.</span> <span class="toc-text">7.3 漏洞扫描与利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E5%AF%86%E7%A0%81%E4%B8%8E%E8%AE%A4%E8%AF%81%E6%94%BB%E5%87%BB"><span class="toc-number">7.4.</span> <span class="toc-text">7.4 密码与认证攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%9F%9F%E6%B8%97%E9%80%8F"><span class="toc-number">7.5.</span> <span class="toc-text">7.5 网络与域渗透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6-%E5%AD%90%E5%9F%9F%E5%90%8D%E4%B8%8E%E8%B5%84%E4%BA%A7%E5%8F%91%E7%8E%B0"><span class="toc-number">7.6.</span> <span class="toc-text">7.6 子域名与资产发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-7-%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E4%B8%8E%E9%80%86%E5%90%91"><span class="toc-number">7.7.</span> <span class="toc-text">7.7 二进制分析与逆向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-8-%E4%BA%91%E4%B8%8E%E5%AE%B9%E5%99%A8%E5%AE%89%E5%85%A8"><span class="toc-number">7.8.</span> <span class="toc-text">7.8 云与容器安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-9-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E4%B8%8E-Payload"><span class="toc-number">7.9.</span> <span class="toc-text">7.9 文件操作与 Payload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-10-Python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86"><span class="toc-number">7.10.</span> <span class="toc-text">7.10 Python 环境管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-11-%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">7.11.</span> <span class="toc-text">7.11 内存取证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%B8%B8%E7%94%A8%E8%BF%90%E7%BB%B4%E6%93%8D%E4%BD%9C"><span class="toc-number">8.</span> <span class="toc-text">八、常用运维操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">8.1.</span> <span class="toc-text">8.1 日常工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E7%BB%B4%E6%8A%A4"><span class="toc-number">8.2.</span> <span class="toc-text">8.2 服务器端维护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">8.3.</span> <span class="toc-text">8.3 常见问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E9%99%84%E5%BD%95"><span class="toc-number">9.</span> <span class="toc-text">九、附录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%AE%8C%E6%95%B4%E8%AF%B4%E6%98%8E"><span class="toc-number">9.1.</span> <span class="toc-text">9.1 环境变量完整说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-API-%E7%AB%AF%E7%82%B9%E4%B8%80%E8%A7%88"><span class="toc-number">9.2.</span> <span class="toc-text">9.2 API 端点一览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0"><span class="toc-number">9.3.</span> <span class="toc-text">9.3 客户端启动参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-%E5%8D%A0%E4%BD%8D%E7%AC%A6%E6%9B%BF%E6%8D%A2%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="toc-number">9.4.</span> <span class="toc-text">9.4 占位符替换对照表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/01/ida-pro-mcp-%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%80%BB%E7%BB%93/" title="IDA Pro MCP 安装配置完整指南（含 Trae / Claude Code）">IDA Pro MCP 安装配置完整指南（含 Trae / Claude Code）</a><time datetime="2026-07-01T12:40:00.000Z" title="发表于 2026-07-01 20:40:00">2026-07-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/01/hexstrike-ai-install-guide/" title="HexStrike AI 安装完整流程">HexStrike AI 安装完整流程</a><time datetime="2026-07-01T02:00:00.000Z" title="发表于 2026-07-01 10:00:00">2026-07-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/28/hello-world/" title="博客安裝">博客安裝</a><time datetime="2026-06-28T12:40:49.000Z" title="发表于 2026-06-28 20:40:49">2026-06-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/28/java-maven-quick-install/" title="java、maven快速安装脚本">java、maven快速安装脚本</a><time datetime="2026-06-28T12:40:49.000Z" title="发表于 2026-06-28 20:40:49">2026-06-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/28/java%E3%80%81maven%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC/" title="java、maven快速安裝脚本">java、maven快速安裝脚本</a><time datetime="2026-06-28T12:40:49.000Z" title="发表于 2026-06-28 20:40:49">2026-06-28</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By libai</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div><div class="footer_custom_text">⚡ 在霓虹灯下运行 ⚡ // Powered by Hexo & Butterfly</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
